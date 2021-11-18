@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in - Voler Admin Dashboard</title>
+    <title>Sign in</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 
     <link rel="shortcut icon" th:href="@{/images/favicon.svg}" type="image/x-icon">
@@ -20,7 +22,7 @@
                 <div class="card pt-4">
                     <div class="card-body">
                         <div class="text-center mb-5">
-                            <img th:src="@{/images/favicon.svg}" height="48" class='mb-4'>
+                            <img th:src="@{/images/logo_task.png}" height="48" class='mb-4'>
                             <h3>Sign In</h3>
                             <p>Please sign in to continue to Employee task management.</p>
                         </div>
