@@ -7,15 +7,23 @@ insert into authorities (username, authority) values
 ('admin', 'ROLE_USER'),
 ('user', 'ROLE_USER');
 
-insert into priorities (code, name, css_class, icon) values
-                                                                       ('LOW', 'Low', '#0000FF', NULL),
-                                                                       ('LOWEST', 'Lowest', '#0000FF',NULL),
-                                                                       ('MEDIUM', 'Medium', '#FFA500', NULL);
+insert into priorities (id,code, name, css_class, icon) values
+(1,'LOW', 'Low', 'badge bg-info text-dark', NULL),
+(2,'LOWEST', 'Lowest', 'badge bg-primary',NULL),
+(3,'MEDIUM', 'Medium', 'badge bg-success', NULL),
+(4,'HIGH', 'High', 'badge bg-warning text-dark', NULL),
+(5,'HIGHEST', 'Highest', 'badge bg-danger', NULL);
 
-insert into statuses(code, name, css_class, is_default) values
-                                                               ('TODO', 'To-Do', 'badge', 1),
-                                                               ('IN_PROGRESS', 'In progress', 'badge',0),
-                                                               ('DONE', 'Done', 'badge', 0);
+insert into statuses(id, code, name, css_class) values
+(1,'TODO', 'To-Do', 'badge bg-secondary'),
+(2,'IN_PROGRESS', 'In progress', 'badge bg-primary'),
+(3,'DONE', 'Done', 'badge bg-success');
 
 insert into tasks(subject, description, user_assigned_to, user_assigned_by, status_id, priority_id, deadline) values
-    ('Subject', 'Description', 'user', 'admin', 1, 1, '2021-10-10')
+    ('Subject', 'Description', 'admin', 'admin', 1, 1, '2021-10-10'),
+    ('Subject', 'Description', 'admin', 'admin', 2, 1, '2021-10-10'),
+    ('Subject', 'Description', 'admin', 'admin', 3, 1, '2021-10-10'),
+    ('Subject', 'Description', 'user', 'admin', 1, 1, '2021-10-10'),
+    ('Subject', 'Description', 'user', 'admin', 2, 1, '2021-10-10'),
+    ('Subject', 'Description', 'user', 'admin', 2, 1, '2021-10-10'),
+    ('Subject', 'Description', 'user', 'admin', 2, 1, '2021-10-10');

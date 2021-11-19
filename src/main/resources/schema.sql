@@ -3,7 +3,7 @@ create table if not exists users (
     first_name varchar(50) not null,
     last_name varchar(50) not null,
     password varchar(100) not null,
-    enabled boolean not null
+    enabled bit not null
     );
 
 create table if not exists authorities (
@@ -13,19 +13,18 @@ create table if not exists authorities (
     );
 
 create table if not exists priorities (
-    id identity,
+    id bigint primary key ,
     code varchar(20) not null,
     name varchar(50) not null,
-    css_class varchar(20) null,
+    css_class varchar(500) null,
     icon varchar(20) null
     );
 
 create  table if not exists  statuses (
-    id identity ,
+    id bigint primary  key ,
     code varchar(20) not null,
     name varchar(50) not null,
-    css_class varchar(20) null,
-    is_default bit not null
+    css_class varchar(500) null
 );
 
 create table if not exists tasks (
@@ -43,7 +42,28 @@ create table if not exists tasks (
 
 create view if not exists v_tasks
 as
-select t.* from tasks t
+select
+       t.id,
+       t.subject,
+       t.description,
+       t.user_assigned_to as assigned_to_username,
+       uato.first_name as assigned_to_first_name,
+       uato.last_name as assigned_to_last_name,
+       t.user_assigned_by as assigned_by_username,
+       uaby.first_name as assigned_by_first_name,
+       uaby.last_name as assigned_by_last_name,
+       t.status_id,
+       st.code as status_code,
+       st.name as status_name,
+       st.css_class as status_css_class,
+       t.priority_id,
+       p.code as priority_code,
+       p.name as priority_name,
+       p.css_class as priority_css_class,
+       p.icon as priority_icon,
+       t.deadline
+from tasks t
 left join users uato on t.user_assigned_to = uato.username
 left join users uaby on t.user_assigned_to = uaby.username
 left join statuses st on t.status_id = st.id
+left join priorities p on t.priority_id = p.id

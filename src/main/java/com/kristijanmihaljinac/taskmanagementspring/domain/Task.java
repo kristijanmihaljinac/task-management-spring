@@ -21,21 +21,26 @@ public class Task {
             Long id,
             String subject,
             String description,
-            User assignedBy,
             User assignedTo,
+            User assignedBy,
             Status status,
             Priority priority,
             LocalDateTime deadline
     ){
+
         Task ts = new Task();
         ts.setId(id);
-
+        ts.setSubject(subject);
+        ts.setDescription(description);
+        ts.setAssignedTo(assignedTo);
+        ts.setAssignedBy(assignedBy);
+        ts.setStatus(status);
+        ts.setPriority(priority);
+        ts.setDeadline(deadline);
 
 
         return ts;
     }
 
-    public static Task Create(){
-        return new Task();
-    }
+
 }

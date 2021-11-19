@@ -7,7 +7,10 @@ import java.util.Set;
 
 public interface TaskRepository {
     Set<Task> findAll();
+    Optional<Task> findById(Long id);
     Optional<Task> save(Task task);
-    Set<Task> findByUserAssignedBy(Long userAssignedById);
+    Set<Task> findByUserAssignedTo(String userAssignedToUsername);
     void deleteById(Long id);
+    Set<Task> findByStatusId(Long statusId);
+    Set<Task> findByUserAssignedToAndStatusId(String userAssignedToUsername, Long statusId);
 }

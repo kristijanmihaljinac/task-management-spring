@@ -8,5 +8,24 @@ public class Status {
     private String code;
     private String name;
     private String cssClass;
-    private Boolean isDefault;
+
+    private Status(){};
+
+    public static Status Create(
+            Long id,
+            String code,
+            String name,
+            String cssClass
+    ){
+        if(id == null || id == 0)
+            return null;
+
+        Status st = new Status();
+        st.setId(id);
+        st.setCode(code);
+        st.setName(name);
+        st.setCssClass(cssClass);
+
+        return st;
+    }
 }

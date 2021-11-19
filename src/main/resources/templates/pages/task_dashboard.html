@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dashboard}">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,147 +15,140 @@
         <p class="text-subtitle text-muted">Tasks dashboard</p>
     </div>
     <section class="section">
-        <div class="row mb-2">
-            <div class="col-12 col-md-4">
-                <div class="card card-statistic">
-                    <div class="card-body p-0">
-                        <div class="d-flex flex-column">
-                            <div class='px-3 py-3 d-flex justify-content-between'>
-                                <h3 class='card-title'>TO-DO</h3>
-                                <div class="card-right d-flex align-items-center">
-                                    <p>50</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="card card-statistic">
-                    <div class="card-body p-0">
-                        <div class="d-flex flex-column">
-                            <div class='px-3 py-3 d-flex justify-content-between'>
-                                <h3 class='card-title'>IN PROGRESS</h3>
-                                <div class="card-right d-flex align-items-center">
-                                    <p>50</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="card card-statistic">
-                    <div class="card-body p-0">
-                        <div class="d-flex flex-column">
-                            <div class='px-3 py-3 d-flex justify-content-between'>
-                            <h3 class='card-title'>DONE</h3>
-                            <div class="card-right d-flex align-items-center">
-                                <p>50</p>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row mb-4">
-            <div class="col-md-12">
-
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">MY TASKS</h4>
-                    </div>
-                    <div class="card-body px-0 pb-0">
-                        <div class="table-responsive">
-                            <table class='table mb-0' id="table1">
+            <div class="col-md-4">
+                <div class="table-responsive">
+                    <table class='table table-hover table-responsive table-responsive-sm  mb-0' id="table1">
                                 <thead>
                                 <tr>
-                                    <th>Subject</th>
-                                    <th>Description</th>
-                                    <th>Assigned by</th>
-                                    <th>Deadline</th>
-                                    <th>Status</th>
-                                    <th></th>
+                                    <th>
+                                        <div class="card card-statistic mb-0">
+                                            <div class="card-body p-0">
+                                                <div class="d-flex flex-column">
+                                                    <div class='px-3 py-3 d-flex justify-content-between'>
+                                                        <h3 class='card-title'>TO-DO</h3>
+                                                        <div class="card-right d-flex align-items-center">
+                                                            <p>50</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Graiden</td>
-                                    <td>vehicula.aliquet@semconsequat.co.uk</td>
-                                    <td>076 4820 8838</td>
-                                    <td>Offenburg</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
+                                <tr th:each="todoTask : ${todoTasks}">
+                                    <td class="border-bottom-0">
+                                        <div class="card mb-0">
+                                            <div class="card-body">
+                                                <h5 class="card-title" th:text="${todoTask.getSubject()}"></h5>
+                                                <h6 class="card-subtitle mb-2 text-muted">Assigned by: <span th:text="${todoTask.getAssignedBy().getFullName()}"></span></h6>
+                                                <p class="card-text" th:text="${todoTask.getDescription()}"></p>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Dale</td>
-                                    <td>fringilla.euismod.enim@quam.ca</td>
-                                    <td>0500 527693</td>
-                                    <td>New Quay</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Nathaniel</td>
-                                    <td>mi.Duis@diam.edu</td>
-                                    <td>(012165) 76278</td>
-                                    <td>Grumo Appula</td>
-                                    <td>
-                                        <span class="badge bg-danger">Inactive</span>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Darius</td>
-                                    <td>velit@nec.com</td>
-                                    <td>0309 690 7871</td>
-                                    <td>Ways</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Ganteng</td>
-                                    <td>velit@nec.com</td>
-                                    <td>0309 690 7871</td>
-                                    <td>Ways</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Oleg</td>
-                                    <td>rhoncus.id@Aliquamauctorvelit.net</td>
-                                    <td>0500 441046</td>
-                                    <td>Rossignol</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Kermit</td>
-                                    <td>diam.Sed.diam@anteVivamusnon.org</td>
-                                    <td>(01653) 27844</td>
-                                    <td>Patna</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                    <td></td>
                                 </tr>
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
                 </div>
             </div>
+
+            <div class="col-md-4">
+                <div class="table-responsive">
+                    <table class='table table-hover table-responsive table-responsive-sm  mb-0' id="table2">
+                        <thead>
+                        <tr>
+                            <th>
+                                <div class="card card-statistic mb-0">
+                                    <div class="card-body p-0">
+                                        <div class="d-flex flex-column">
+                                            <div class='px-3 py-3 d-flex justify-content-between'>
+                                                <h3 class='card-title'>IN PROGRESS</h3>
+                                                <div class="card-right d-flex align-items-center">
+                                                    <p>50</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="inProgressTask : ${inProgressTasks}">
+                            <td class="border-bottom-0">
+                                <div class="card mb-0">
+                                    <div class="card-body">
+                                        <h5 class="card-title" th:text="${inProgressTask.getSubject()}"></h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Assigned by: <span th:text="${inProgressTask.getAssignedBy().getFullName()}"></span></h6>
+                                        <p class="card-text" th:text="${inProgressTask.getDescription()}"></p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="table-responsive">
+                    <table class='table table-hover table-responsive table-responsive-sm  mb-0' id="table3">
+                        <thead>
+                        <tr>
+                            <th>
+                                <div class="card card-statistic mb-0">
+                                    <div class="card-body p-0">
+                                        <div class="d-flex flex-column">
+                                            <div class='px-3 py-3 d-flex justify-content-between'>
+                                                <h3 class='card-title'>DONE</h3>
+                                                <div class="card-right d-flex align-items-center">
+                                                    <p>50</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="doneTask : ${doneTasks}">
+                            <td class="border-bottom-0">
+                                <div class="card mb-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col"><h5 class="card-title" th:text="${doneTask.getSubject()}"></h5></div>
+                                            <div class="col justify-content-end">
+                                                <a class="dropdown float-end">
+                                                    <div   data-bs-toggle="dropdown">
+                                                        <i data-feather="repeat" width="20"></i>
+                                                    </div>
+                                                    <div class="dropdown-menu dropdown-menu-end ">
+                                                        <button class="dropdown-item"><i data-feather="list"></i> TO-DO</button>
+                                                        <button class="dropdown-item"><i data-feather="clock"></i> IN PROGRESS</button>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <h6 class="card-subtitle mb-2 text-muted">Assigned by: <span th:text="${doneTask.getAssignedBy().getFullName()}"></span></h6>
+                                        <h6 class="card-subtitle mb-2 text-muted">Assigned to: <span th:text="${doneTask.getAssignedTo().getFullName()}"></span></h6>
+                                        <p class="card-text" th:text="${doneTask.getDescription()}"></p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
 
         </div>
     </section>
