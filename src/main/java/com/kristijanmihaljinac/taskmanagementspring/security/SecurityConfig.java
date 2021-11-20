@@ -47,8 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
                 .defaultSuccessUrl("/task/dashboard", true)
                 .and()
-                .logout()
-                .logoutSuccessUrl("/login?logout")
+                .logout().logoutSuccessUrl("/login?logout")
                 .and()
                 .exceptionHandling().accessDeniedPage("/403")
                 // the methods called below are here exclusively to allow access to the H2 console which has no CSRF protection and uses iframes

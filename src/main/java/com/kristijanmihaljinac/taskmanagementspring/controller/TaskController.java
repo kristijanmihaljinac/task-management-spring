@@ -59,6 +59,9 @@ public class TaskController {
             Task task = taskToEdit.orElseThrow(RuntimeException::new);
             model.addAttribute("task", task);
         }
+        else {
+            return "pages/forbidden";
+        }
 
         model.addAttribute("pageTitle", "Edit task");
         model.addAttribute("taskPriorities", PriorityEnum.values());
