@@ -67,3 +67,4 @@ left join users uato on t.user_assigned_to = uato.username
 left join users uaby on t.user_assigned_by = uaby.username
 left join statuses st on t.status_id = st.id
 left join priorities p on t.priority_id = p.id
+order by priority_id desc

@@ -30,7 +30,6 @@ public class JdbcTaskRepository implements TaskRepository{
                 description = ?,
                 user_assigned_to = ?,
                 user_assigned_by = ?,
-                status_id = ?, 
                 priority_id = ?, 
                 deadline = ?
             WHERE id = ?
@@ -42,9 +41,6 @@ public class JdbcTaskRepository implements TaskRepository{
         this.jdbcInsert = new SimpleJdbcInsert(jdbc)
                 .withTableName(TABLE_NAME)
                 .usingGeneratedKeyColumns(GENERATED_KEY_COLUMN);
-
-
-
     }
     @Override
     public Set<Task> findAll() {
@@ -87,7 +83,7 @@ public class JdbcTaskRepository implements TaskRepository{
         try{
             return Set.copyOf(
                     jdbc.query(
-                            SELECT_ALL + " WHERE assigned_to_username = ? AND status_id = ?",
+                            SELECT_ALL + " WHERE assigned_to_username = ? AND status_id = ? ORDER BY priority_id DESC",
                             this::mapRowToTask,
                             userAssignedToUsername,
                             statusId
@@ -103,7 +99,7 @@ public class JdbcTaskRepository implements TaskRepository{
         try{
             return Set.copyOf(
                     jdbc.query(
-                            SELECT_ALL + " WHERE status_id = ?",
+                            SELECT_ALL + " WHERE status_id = ? ORDER BY priority_id DESC",
                             this::mapRowToTask,
                             statusId
                     )
@@ -122,7 +118,7 @@ public class JdbcTaskRepository implements TaskRepository{
 
     @Override
     public void changeStatus(Long id, Long statusId) {
-        jdbc.update("UPDATE tasks SET status_id = ? WHERE id = ?", statusId, id);
+        jdbc.update("UPDATE tasks SET status_id = ? WHERE id = ? ", statusId, id);
     }
 
     private Task mapRowToTask(ResultSet rs, int rowNum) throws SQLException {
@@ -158,11 +154,8 @@ public class JdbcTaskRepository implements TaskRepository{
     }
 
     private Task saveTaskDetails(Task task){
-
         Map<String, Object> values = new HashMap<>();
         if (task.getId() == null){
-
-            String assignedBy = task.getAssignedBy().getUsername();
 
             values.put("subject", task.getSubject());
             values.put("description", task.getDescription());
@@ -173,8 +166,6 @@ public class JdbcTaskRepository implements TaskRepository{
             values.put("deadline", task.getDeadline());
 
             task.setId(jdbcInsert.executeAndReturnKey(values).longValue());
-
-
         }
         else
         {
@@ -184,11 +175,9 @@ public class JdbcTaskRepository implements TaskRepository{
                     task.getDescription(),
                     task.getAssignedToUsername(),
                     task.getAssignedBy().getUsername(),
-                    task.getStatus().getId(),
                     task.getPriorityId(),
                     task.getDeadline(),
                     task.getId());
-
         }
 
         return task;

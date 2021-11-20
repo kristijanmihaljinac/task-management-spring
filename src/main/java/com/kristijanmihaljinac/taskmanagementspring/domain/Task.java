@@ -12,18 +12,21 @@ import java.time.LocalDateTime;
 public class Task {
     private Long id;
 
-    @NotEmpty(message = "The subject has not been entered")
-    @Size(min = 2, max = 20, message = "The subject should be between 2 and 20 characters long")
+    @NotEmpty(message = "The subject has not been entered!")
+    @Size(min = 2, max = 20, message = "The subject should be between 2 and 20 characters long!")
     private String subject;
 
-    @Length(max = 100, message = "Description can only be 100 characters long")
-    @NotNull(message = "The description has not been entered")
+
+    @NotEmpty(message = "The description has not been entered")
+    @Size(min = 10, max = 100, message = "The description should be between 10 and 20 characters long!")
     private String description;
 
     private User assignedBy;
 
     private User assignedTo;
 
+    @NotEmpty(message = "Task must be assigned to user")
+    @NotNull(message = "Task must be assigned to user")
     private String assignedToUsername;
 
     private Status status;
@@ -31,13 +34,7 @@ public class Task {
     private Priority priority;
     private Long priorityId;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @NotNull(message = "The deadline date has not been entered")
     @FutureOrPresent(message = "The deadline date can not be in the past")
@@ -82,7 +79,13 @@ public class Task {
 
 
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getSubject() {
         return subject;

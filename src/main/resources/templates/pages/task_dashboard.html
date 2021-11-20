@@ -4,10 +4,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/dashboard}"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
     <div class="page-title">
@@ -25,8 +21,8 @@
                                         <div class="card card-statistic mb-0">
                                             <div class="card-body p-0">
                                                 <div class="d-flex flex-column">
-                                                    <div class='px-3 py-3 d-flex justify-content-between'>
-                                                        <h3 class='card-title'>TO-DO</h3>
+                                                    <div class='px-3 py-3 d-flex justify-content-between text-center'>
+                                                        <h3 class='card-title '>TO-DO</h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -49,11 +45,12 @@
                                                             </button>
                                                         </form>
 
-                                                        <a sec:authorize="hasRole('ROLE_ADMIN')" data-toggle="tooltip" title="Edit" th:href="@{'/task/edit/{id}'(id=${todoTask.getId()})}"   class="btn btn-xs p-0 float-end">
+                                                        <a sec:authorize="hasRole('ROLE_ADMIN')" data-toggle="tooltip" title="Edit" th:href="@{'/task/edit/{id}'(id=${todoTask.getId()})}"
+                                                            class="btn btn-xs p-0 float-end me-1">
                                                             <i data-feather="edit" width="20"></i>
                                                         </a>
 
-                                                        <a data-toggle="tooltip" title="Change status" class="btn btn-xs p-0 dropdown float-end">
+                                                        <a data-toggle="tooltip" title="Change status" class="btn btn-xs p-0 dropdown float-end me-1">
                                                             <div   data-bs-toggle="dropdown">
                                                                 <i data-feather="repeat" width="20"></i>
                                                             </div>
@@ -73,7 +70,7 @@
                                                 <hr>
                                                 <h6 class="card-subtitle mb-2 text-muted">Assigned by: <span th:text="${todoTask.getAssignedBy().getFullName()}"></span></h6>
                                                 <h6 th:if="${todoTask.getAssignedTo() != null}" class="card-subtitle mb-2 text-muted">Assigned to: <span th:text="${todoTask.getAssignedTo().getFullName()}"></span></h6>
-<!--                                                <h6 class="card-subtitle mb-2 text-muted">Deadline: <span th:text="${#dates.format(todoTask.getDeadline(), 'dd.MM.yyyy HH:mm')}}"></span></h6>-->
+                                                <h6 class="card-subtitle mb-2 text-muted">Deadline: <span th:text="${#temporals.format(todoTask.getDeadline(), 'dd.MM.yyyy HH:mm')}"></span></h6>
                                                 <h6 th:if="${todoTask.getPriority() != null}" class="card-subtitle mb-2 text-muted">Priority: <span th:class="${todoTask.getPriority()?.getCssClass()}" th:text="${todoTask.getPriority()?.getName()}"></span></h6>
                                                 <p class="card-text" th:text="${todoTask.getDescription()}"></p>
                                             </div>
@@ -118,11 +115,12 @@
                                                     </button>
                                                 </form>
 
-                                                <a sec:authorize="hasRole('ROLE_ADMIN')" data-toggle="tooltip" title="Edit" th:href="@{'/task/edit/{id}'(id=${inProgressTask.getId()})}"   class="btn btn-xs p-0 float-end">
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" data-toggle="tooltip" title="Edit" th:href="@{'/task/edit/{id}'(id=${inProgressTask.getId()})}"
+                                                   class="btn btn-xs p-0 float-end me-1">
                                                     <i data-feather="edit" width="20"></i>
                                                 </a>
 
-                                                <a data-toggle="tooltip" title="Change status" class="btn btn-xs p-0 dropdown float-end">
+                                                <a data-toggle="tooltip" title="Change status" class="btn btn-xs p-0 dropdown float-end me-1">
                                                     <div   data-bs-toggle="dropdown">
                                                         <i data-feather="repeat" width="20"></i>
                                                     </div>
@@ -141,7 +139,7 @@
                                         <hr>
                                         <h6 class="card-subtitle mb-2 text-muted">Assigned by: <span th:text="${inProgressTask.getAssignedBy().getFullName()}"></span></h6>
                                         <h6 th:if="${inProgressTask.getAssignedTo() != null}" class="card-subtitle mb-2 text-muted">Assigned to: <span th:text="${inProgressTask.getAssignedTo().getFullName()}"></span></h6>
-<!--                                        <h6 class="card-subtitle mb-2 text-muted">Deadline: <span th:text="${#dates.format(todoTask.getDeadline(), 'dd.MM.yyyy HH:mm')}}"></span></h6>-->
+                                        <h6 class="card-subtitle mb-2 text-muted">Deadline: <span th:text="${#temporals.format(inProgressTask.getDeadline(), 'dd.MM.yyyy HH:mm')}"></span></h6>
                                         <h6 th:if="${inProgressTask.getPriority() != null}" class="card-subtitle mb-2 text-muted">Priority: <span th:class="${inProgressTask.getPriority()?.getCssClass()}" th:text="${inProgressTask.getPriority()?.getName()}"></span></h6>
                                         <p class="card-text" th:text="${inProgressTask.getDescription()}"></p>
                                     </div>
@@ -185,11 +183,11 @@
                                                     </button>
                                                 </form>
 
-                                                <a sec:authorize="hasRole('ROLE_ADMIN')" data-toggle="tooltip" title="Edit" th:href="@{'/task/edit/{id}'(id=${doneTask.getId()})}"   class="btn btn-xs p-0 float-end">
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" data-toggle="tooltip" title="Edit" th:href="@{'/task/edit/{id}'(id=${doneTask.getId()})}"   class="btn btn-xs p-0 float-end me-1">
                                                     <i data-feather="edit" width="20"></i>
                                                 </a>
 
-                                                <a data-toggle="tooltip" title="Change status" class="btn btn-xs p-0 dropdown float-end">
+                                                <a data-toggle="tooltip" title="Change status" class="btn btn-xs p-0 dropdown float-end me-1">
                                                     <div   data-bs-toggle="dropdown">
                                                         <i data-feather="repeat" width="20"></i>
                                                     </div>
@@ -208,7 +206,7 @@
                                         <hr>
                                         <h6 class="card-subtitle mb-2 text-muted">Assigned by: <span th:text="${doneTask.getAssignedBy().getFullName()}"></span></h6>
                                         <h6 th:if="${doneTask.getAssignedTo() != null}" class="card-subtitle mb-2 text-muted">Assigned to: <span th:text="${doneTask.getAssignedTo().getFullName()}"></span></h6>
-<!--                                        <h6 class="card-subtitle mb-2 text-muted">Deadline: <span th:text="${#dates.format(todoTask.getDeadline(), 'dd.MM.yyyy HH:mm')}}"></span></h6>-->
+                                        <h6 class="card-subtitle mb-2 text-muted">Deadline: <span th:text="${#temporals.format(doneTask.getDeadline(), 'dd.MM.yyyy HH:mm')}"></span></h6>
                                         <h6 th:if="${doneTask.getPriority() != null}" class="card-subtitle mb-2 text-muted">Priority: <span th:class="${doneTask.getPriority()?.getCssClass()}" th:text="${doneTask.getPriority()?.getName()}"></span></h6>
                                         <p class="card-text" th:text="${doneTask.getDescription()}"></p>
                                     </div>

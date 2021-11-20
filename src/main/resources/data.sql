@@ -1,11 +1,14 @@
 insert into users (username,first_name, last_name, password, enabled) values
 ('admin','Kristijan', 'Mihaljinac', '$2a$10$rC14zOuWa0NiFB9.TIm.d.4YH9wFwm9oG8dpvvL03HvYTTwhHQD0u', 1),
-('user','Marko', 'Markic', '$2a$10$rC14zOuWa0NiFB9.TIm.d.4YH9wFwm9oG8dpvvL03HvYTTwhHQD0u', 1);
+('mmarkic','Marko', 'Markic', '$2a$10$rC14zOuWa0NiFB9.TIm.d.4YH9wFwm9oG8dpvvL03HvYTTwhHQD0u', 1),
+('pperic','Pero', 'Peric', '$2a$10$rC14zOuWa0NiFB9.TIm.d.4YH9wFwm9oG8dpvvL03HvYTTwhHQD0u', 1);
 
 insert into authorities (username, authority) values
 ('admin', 'ROLE_ADMIN'),
 ('admin', 'ROLE_USER'),
-('user', 'ROLE_USER');
+('mmarkic', 'ROLE_USER'),
+('pperic', 'ROLE_USER');
+                                                     ;
 
 insert into priorities (id,code, name, css_class, icon) values
 (1,'LOW', 'Low', 'badge bg-info text-dark', NULL),
@@ -20,10 +23,10 @@ insert into statuses(id, code, name, css_class) values
 (3,'DONE', 'Done', 'badge bg-success');
 
 insert into tasks(subject, description, user_assigned_to, user_assigned_by, status_id, priority_id, deadline) values
-    ('TASK-1', 'Learn css', 'admin', 'admin', 1, 1, '2021-12-12'),
-    ('TASK-2', 'Learn C#', 'admin', 'admin', 2, 1, '2021-12-12'),
-    ('TASK-3', 'Learn Java', 'admin', 'admin', 3, 1, '2021-12-12'),
-    ('TASK-4', 'Learn Kotlin', 'user', 'admin', 1, 1, '2021-12-12'),
-    ('TASK-5', 'Learn HTML', 'user', 'admin', 2, 1, '2021-12-12'),
-    ('TASK-6', 'Learn Python', 'user', 'admin', 2, 1, '2021-12-12'),
-    ('TASK-7', 'Learn SQL', 'user', 'admin', 2, 1, '2021-12-12');
+    ('TASK-1', 'Learn css', 'admin', 'admin', 1, 1, '2021-12-13'),
+    ('TASK-2', 'Learn C#', 'admin', 'admin', 2, 2, '2021-12-14'),
+    ('TASK-3', 'Learn Java', 'admin', 'admin', 3, 3, '2021-12-15'),
+    ('TASK-4', 'Learn Kotlin', 'mmarkic', 'admin', 1, 4, '2021-12-16'),
+    ('TASK-5', 'Learn HTML', 'mmarkic', 'admin', 2, 5, '2021-12-17'),
+    ('TASK-6', 'Learn Python', 'pperic', 'admin', 2, 1, '2021-12-18'),
+    ('TASK-7', 'Learn SQL', 'pperic', 'admin', 2, 1, '2021-12-19');

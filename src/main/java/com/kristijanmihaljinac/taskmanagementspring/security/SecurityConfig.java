@@ -36,10 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        //.antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**").permitAll()
         http
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations(), PathRequest.toH2Console()).permitAll()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**").permitAll()
                 .antMatchers("/login").anonymous()
                 .anyRequest().authenticated()
                 .and()
@@ -48,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout")
+                .and()
+                .exceptionHandling().accessDeniedPage("/403")
                 // the methods called below are here exclusively to allow access to the H2 console which has no CSRF protection and uses iframes
                 .and()
                 .csrf().ignoringRequestMatchers(PathRequest.toH2Console())

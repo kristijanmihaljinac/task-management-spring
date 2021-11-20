@@ -38,8 +38,9 @@ public class TaskController {
     }
 
     @GetMapping("new")
-    @RolesAllowed("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     public String newTask(Task task, Model model, Authentication authentication){
+
 
         model.addAttribute("pageTitle", "New task");
         model.addAttribute("taskPriorities", PriorityEnum.values());
@@ -51,12 +52,14 @@ public class TaskController {
     @RolesAllowed("ROLE_ADMIN")
     public String newTask(@PathVariable Long id, Model model, Authentication authentication){
 
+
         Optional<Task> taskToEdit = taskService.findById(id);
 
         if(taskToEdit.isPresent()){
             Task task = taskToEdit.orElseThrow(RuntimeException::new);
             model.addAttribute("task", task);
         }
+
         model.addAttribute("pageTitle", "Edit task");
         model.addAttribute("taskPriorities", PriorityEnum.values());
         model.addAttribute("users", userService.findAll());
@@ -66,6 +69,8 @@ public class TaskController {
     @PostMapping("confirm-save")
     @RolesAllowed("ROLE_ADMIN")
     public String taskSaveConfirm(@Valid Task task, Errors errors, Model model, Authentication authentication) {
+
+
         if(errors.hasErrors()){
             model.addAttribute("taskPriorities", PriorityEnum.values());
             model.addAttribute("users", userService.findAll());
@@ -104,13 +109,15 @@ public class TaskController {
     }
 
     @RequestMapping("delete/{id}")
-    @RolesAllowed("ROLE_ADMIN")
     public String deleteTask(@PathVariable Long id, Model model, Authentication authentication){
 
         taskService.deleteById(id);
         addTasksToModel(model, authentication);
         return "pages/task_dashboard";
+
     }
+
+
 
     private void addTasksToModel(Model model, Authentication authentication){
 
@@ -131,4 +138,6 @@ public class TaskController {
 
 
     }
+
+
 }

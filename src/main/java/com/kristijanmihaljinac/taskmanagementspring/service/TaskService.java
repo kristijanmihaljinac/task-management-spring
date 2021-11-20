@@ -1,7 +1,11 @@
 package com.kristijanmihaljinac.taskmanagementspring.service;
 
+import com.kristijanmihaljinac.taskmanagementspring.domain.Status;
 import com.kristijanmihaljinac.taskmanagementspring.domain.Task;
+import com.kristijanmihaljinac.taskmanagementspring.domain.User;
+import com.kristijanmihaljinac.taskmanagementspring.domain.enums.StatusEnum;
 import com.kristijanmihaljinac.taskmanagementspring.repository.TaskRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,6 +32,7 @@ public class TaskService {
     }
 
     public Optional<Task> save(Task task) {
+
         return taskRepository.save(task);
     }
 

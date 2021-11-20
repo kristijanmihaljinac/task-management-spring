@@ -10,9 +10,9 @@ public class TaskManagementSpringApplication {
     public static void main(String[] args) {
         SpringApplication.run(TaskManagementSpringApplication.class, args);
 
-        BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
-        String password= bCryptPasswordEncoder.encode("admin");//encrypt password
-        System.out.println(password);
+        //BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
+        //String password= bCryptPasswordEncoder.encode("admin");//encrypt password
+        //System.out.println(password);
     }
 
 }

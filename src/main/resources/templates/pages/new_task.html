@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dashboard}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title> Employee task management</title>
 </head>
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
     <div class="page-title">
-        <h3 th:text="${pageTitle}">    </h3>
+        <h3><span th:text="${pageTitle}"></span></h3>
     </div>
 
     <div class="col-md-8">
@@ -17,17 +19,18 @@
                 <div class="card-body">
                     <div class="form-row">
                         <div class="col-md-10 mb-3">
-                            <label for="subject">Subject: </label>
+                            <label class="font-bold" for="subject">Subject: </label>
                             <input id="subject" type="text" th:field="*{subject}" class="form-control" />
                             <span class="validation-error text-danger"
                                   th:if="${#fields.hasErrors('subject')}"
                                   th:errors="*{subject}">
                             </span>
                         </div>
+                    </div>
 
                         <div class="form-row">
                             <div class="col-md-10 mb-3">
-                                <label for="deadline">Deadline: </label>
+                                <label class="font-bold" for="deadline">Deadline: </label>
                                 <input id="deadline" type="datetime-local" th:field="*{deadline}" class="form-control" />
                                 <span class="validation-error text-danger"
                                       th:if="${#fields.hasErrors('deadline')}"
@@ -55,7 +58,7 @@
 
                         <div class="form-row ">
                             <div class="col-md-10 mb-3">
-                                <label for="taskUser">User assigned to: </label>
+                                <label class="font-bold" for="taskUser">User assigned to: </label>
                                 <select id="taskUser" th:field="*{assignedToUsername}" class="form-control">
                                     <option value="" >---Choose a user---</option>
                                     <option th:each="taskUser : ${users}"
@@ -70,9 +73,9 @@
                             </div>
                         </div>
 
-
+                    <div class="form-row">
                         <div class="col-md-10 mb-3">
-                            <label for="description">Description: </label>
+                            <label class="font-bold" for="description">Description: </label>
                             <textarea id="description" type="text" th:field="*{description}" class="form-control" rows="4" />
                             <span class="validation-error text-danger"
                                   th:if="${#fields.hasErrors('description')}"
