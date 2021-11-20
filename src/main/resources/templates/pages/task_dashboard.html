@@ -27,9 +27,6 @@
                                                 <div class="d-flex flex-column">
                                                     <div class='px-3 py-3 d-flex justify-content-between'>
                                                         <h3 class='card-title'>TO-DO</h3>
-                                                        <div class="card-right d-flex align-items-center">
-                                                            <p>50</p>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -43,8 +40,41 @@
                                     <td class="border-bottom-0">
                                         <div class="card mb-0">
                                             <div class="card-body">
-                                                <h5 class="card-title" th:text="${todoTask.getSubject()}"></h5>
+                                                <div class="row">
+                                                    <div class="col"><h5 class="card-title" th:text="${todoTask.getSubject()}"></h5></div>
+                                                    <div class="col justify-content-end">
+                                                        <form sec:authorize="hasRole('ROLE_ADMIN')" th:action="@{'/task/delete/{id}'(id=${todoTask.getId()})}" >
+                                                            <button type="submit" data-toggle="tooltip" title="Delete"   class="btn btn-xs p-0 float-end">
+                                                                <i data-feather="trash-2" width="20"></i>
+                                                            </button>
+                                                        </form>
+
+                                                        <a sec:authorize="hasRole('ROLE_ADMIN')" data-toggle="tooltip" title="Edit" th:href="@{'/task/edit/{id}'(id=${todoTask.getId()})}"   class="btn btn-xs p-0 float-end">
+                                                            <i data-feather="edit" width="20"></i>
+                                                        </a>
+
+                                                        <a data-toggle="tooltip" title="Change status" class="btn btn-xs p-0 dropdown float-end">
+                                                            <div   data-bs-toggle="dropdown">
+                                                                <i data-feather="repeat" width="20"></i>
+                                                            </div>
+                                                            <div class="dropdown-menu dropdown-menu-end ">
+
+                                                                <form th:action="@{'/task/change-status-inprogress/{id}'(id=${todoTask.getId()})}">
+                                                                    <button type="submit" class="dropdown-item"><i data-feather="clock"></i> IN PROGRESS</button>
+                                                                </form>
+                                                                <form th:action="@{'/task/change-status-done/{id}'(id=${todoTask.getId()})}">
+                                                                    <button type="submit" class="dropdown-item"><i data-feather="list"></i> DONE</button>
+                                                                </form>
+                                                            </div>
+                                                        </a>
+
+                                                    </div>
+                                                </div>
+                                                <hr>
                                                 <h6 class="card-subtitle mb-2 text-muted">Assigned by: <span th:text="${todoTask.getAssignedBy().getFullName()}"></span></h6>
+                                                <h6 th:if="${todoTask.getAssignedTo() != null}" class="card-subtitle mb-2 text-muted">Assigned to: <span th:text="${todoTask.getAssignedTo().getFullName()}"></span></h6>
+<!--                                                <h6 class="card-subtitle mb-2 text-muted">Deadline: <span th:text="${#dates.format(todoTask.getDeadline(), 'dd.MM.yyyy HH:mm')}}"></span></h6>-->
+                                                <h6 th:if="${todoTask.getPriority() != null}" class="card-subtitle mb-2 text-muted">Priority: <span th:class="${todoTask.getPriority()?.getCssClass()}" th:text="${todoTask.getPriority()?.getName()}"></span></h6>
                                                 <p class="card-text" th:text="${todoTask.getDescription()}"></p>
                                             </div>
                                         </div>
@@ -66,9 +96,6 @@
                                         <div class="d-flex flex-column">
                                             <div class='px-3 py-3 d-flex justify-content-between'>
                                                 <h3 class='card-title'>IN PROGRESS</h3>
-                                                <div class="card-right d-flex align-items-center">
-                                                    <p>50</p>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -82,8 +109,40 @@
                             <td class="border-bottom-0">
                                 <div class="card mb-0">
                                     <div class="card-body">
-                                        <h5 class="card-title" th:text="${inProgressTask.getSubject()}"></h5>
+                                        <div class="row">
+                                            <div class="col"><h5 class="card-title" th:text="${inProgressTask.getSubject()}"></h5></div>
+                                            <div class="col justify-content-end">
+                                                <form sec:authorize="hasRole('ROLE_ADMIN')" th:action="@{'/task/delete/{id}'(id=${inProgressTask.getId()})}" >
+                                                    <button type="submit" data-toggle="tooltip" title="Delete"   class="btn btn-xs p-0 float-end">
+                                                        <i data-feather="trash-2" width="20"></i>
+                                                    </button>
+                                                </form>
+
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" data-toggle="tooltip" title="Edit" th:href="@{'/task/edit/{id}'(id=${inProgressTask.getId()})}"   class="btn btn-xs p-0 float-end">
+                                                    <i data-feather="edit" width="20"></i>
+                                                </a>
+
+                                                <a data-toggle="tooltip" title="Change status" class="btn btn-xs p-0 dropdown float-end">
+                                                    <div   data-bs-toggle="dropdown">
+                                                        <i data-feather="repeat" width="20"></i>
+                                                    </div>
+                                                    <div class="dropdown-menu dropdown-menu-end ">
+                                                        <form th:action="@{'/task/change-status-todo/{id}'(id=${inProgressTask.getId()})}">
+                                                            <button type="submit" class="dropdown-item"><i data-feather="list"></i> TO-DO</button>
+                                                        </form>
+                                                        <form th:action="@{'/task/change-status-done/{id}'(id=${inProgressTask.getId()})}">
+                                                            <button type="submit" class="dropdown-item"><i data-feather="clock"></i> DONE</button>
+                                                        </form>
+                                                    </div>
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                        <hr>
                                         <h6 class="card-subtitle mb-2 text-muted">Assigned by: <span th:text="${inProgressTask.getAssignedBy().getFullName()}"></span></h6>
+                                        <h6 th:if="${inProgressTask.getAssignedTo() != null}" class="card-subtitle mb-2 text-muted">Assigned to: <span th:text="${inProgressTask.getAssignedTo().getFullName()}"></span></h6>
+<!--                                        <h6 class="card-subtitle mb-2 text-muted">Deadline: <span th:text="${#dates.format(todoTask.getDeadline(), 'dd.MM.yyyy HH:mm')}}"></span></h6>-->
+                                        <h6 th:if="${inProgressTask.getPriority() != null}" class="card-subtitle mb-2 text-muted">Priority: <span th:class="${inProgressTask.getPriority()?.getCssClass()}" th:text="${inProgressTask.getPriority()?.getName()}"></span></h6>
                                         <p class="card-text" th:text="${inProgressTask.getDescription()}"></p>
                                     </div>
                                 </div>
@@ -104,9 +163,6 @@
                                         <div class="d-flex flex-column">
                                             <div class='px-3 py-3 d-flex justify-content-between'>
                                                 <h3 class='card-title'>DONE</h3>
-                                                <div class="card-right d-flex align-items-center">
-                                                    <p>50</p>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -123,22 +179,37 @@
                                         <div class="row">
                                             <div class="col"><h5 class="card-title" th:text="${doneTask.getSubject()}"></h5></div>
                                             <div class="col justify-content-end">
-                                                <a class="dropdown float-end">
+                                                <form sec:authorize="hasRole('ROLE_ADMIN')" th:action="@{'/task/delete/{id}'(id=${doneTask.getId()})}" >
+                                                    <button type="submit" data-toggle="tooltip" title="Delete"   class="btn btn-xs p-0 float-end">
+                                                        <i data-feather="trash-2" width="20"></i>
+                                                    </button>
+                                                </form>
+
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" data-toggle="tooltip" title="Edit" th:href="@{'/task/edit/{id}'(id=${doneTask.getId()})}"   class="btn btn-xs p-0 float-end">
+                                                    <i data-feather="edit" width="20"></i>
+                                                </a>
+
+                                                <a data-toggle="tooltip" title="Change status" class="btn btn-xs p-0 dropdown float-end">
                                                     <div   data-bs-toggle="dropdown">
                                                         <i data-feather="repeat" width="20"></i>
                                                     </div>
                                                     <div class="dropdown-menu dropdown-menu-end ">
-                                                        <button class="dropdown-item"><i data-feather="list"></i> TO-DO</button>
-                                                        <button class="dropdown-item"><i data-feather="clock"></i> IN PROGRESS</button>
+                                                        <form th:action="@{'/task/change-status-todo/{id}'(id=${doneTask.getId()})}">
+                                                            <button type="submit" class="dropdown-item"><i data-feather="list"></i> TO-DO</button>
+                                                        </form>
+                                                        <form th:action="@{'/task/change-status-inprogress/{id}'(id=${doneTask.getId()})}">
+                                                            <button type="submit" class="dropdown-item"><i data-feather="clock"></i> IN PROGRESS</button>
+                                                        </form>
                                                     </div>
                                                 </a>
+
                                             </div>
                                         </div>
-
                                         <hr>
-
                                         <h6 class="card-subtitle mb-2 text-muted">Assigned by: <span th:text="${doneTask.getAssignedBy().getFullName()}"></span></h6>
-                                        <h6 class="card-subtitle mb-2 text-muted">Assigned to: <span th:text="${doneTask.getAssignedTo().getFullName()}"></span></h6>
+                                        <h6 th:if="${doneTask.getAssignedTo() != null}" class="card-subtitle mb-2 text-muted">Assigned to: <span th:text="${doneTask.getAssignedTo().getFullName()}"></span></h6>
+<!--                                        <h6 class="card-subtitle mb-2 text-muted">Deadline: <span th:text="${#dates.format(todoTask.getDeadline(), 'dd.MM.yyyy HH:mm')}}"></span></h6>-->
+                                        <h6 th:if="${doneTask.getPriority() != null}" class="card-subtitle mb-2 text-muted">Priority: <span th:class="${doneTask.getPriority()?.getCssClass()}" th:text="${doneTask.getPriority()?.getName()}"></span></h6>
                                         <p class="card-text" th:text="${doneTask.getDescription()}"></p>
                                     </div>
                                 </div>

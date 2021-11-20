@@ -11,7 +11,7 @@ public class Status {
 
     private Status(){};
 
-    public static Status Create(
+    public static Status create(
             Long id,
             String code,
             String name,
@@ -25,6 +25,18 @@ public class Status {
         st.setCode(code);
         st.setName(name);
         st.setCssClass(cssClass);
+
+        return st;
+    }
+
+    public static Status create(
+            Long id
+    ){
+        if(id == null || id == 0)
+            return null;
+
+        Status st = new Status();
+        st.setId(id);
 
         return st;
     }

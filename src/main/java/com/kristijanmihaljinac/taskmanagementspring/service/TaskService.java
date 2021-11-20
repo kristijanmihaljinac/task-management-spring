@@ -47,4 +47,10 @@ public class TaskService {
         return taskRepository.findByUserAssignedToAndStatusId(userAssignedToUsername, statusId);
     }
 
+    public void changeStatus(Long id, Long statusId){
+        taskRepository.changeStatus(id, statusId);
+    }
+
+    
+
 }

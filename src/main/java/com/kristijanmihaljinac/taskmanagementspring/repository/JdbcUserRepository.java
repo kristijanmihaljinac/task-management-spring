@@ -27,7 +27,7 @@ public class JdbcUserRepository implements UserRepository{
     }
 
     private User mapRowToUser(ResultSet rs, int rowNum) throws SQLException {
-        return User.Create(
+        return User.create(
                 rs.getString("username"),
                 rs.getString("first_name"),
                 rs.getString("last_name")

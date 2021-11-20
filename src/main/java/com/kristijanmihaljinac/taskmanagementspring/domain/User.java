@@ -1,6 +1,7 @@
 package com.kristijanmihaljinac.taskmanagementspring.domain;
 
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 @Data
 public class User {
@@ -11,12 +12,12 @@ public class User {
     private User(){}
 
 
-    public static User Create(
-            String username,
-            String firstName,
-            String lastName
+    public static User create(
+            @Nullable String username,
+            @Nullable String firstName,
+            @Nullable String lastName
     ){
-        if(username.isEmpty() || username == null)
+        if(username == null || username.isEmpty() )
             return null;
 
         User usr = new User();
@@ -29,5 +30,17 @@ public class User {
 
     public String getFullName(){
         return firstName + " " + lastName;
+    }
+
+    public static User create(
+            String username
+    ){
+        if(username == null || username.isEmpty())
+            return null;
+
+        User st = new User();
+        st.setUsername(username);
+
+        return st;
     }
 }

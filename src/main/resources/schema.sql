@@ -31,7 +31,7 @@ create table if not exists tasks (
     id identity,
     subject varchar(50) not null,
     description varchar(2000) not null,
-    user_assigned_to varchar(20) null,
+    user_assigned_to varchar(20)  null,
     user_assigned_by varchar (20) not null,
     status_id bigint not null,
     priority_id bigint null,
@@ -64,6 +64,6 @@ select
        t.deadline
 from tasks t
 left join users uato on t.user_assigned_to = uato.username
-left join users uaby on t.user_assigned_to = uaby.username
+left join users uaby on t.user_assigned_by = uaby.username
 left join statuses st on t.status_id = st.id
 left join priorities p on t.priority_id = p.id

@@ -13,4 +13,5 @@ public interface TaskRepository {
     void deleteById(Long id);
     Set<Task> findByStatusId(Long statusId);
     Set<Task> findByUserAssignedToAndStatusId(String userAssignedToUsername, Long statusId);
+    void changeStatus(Long id, Long statusId);
 }

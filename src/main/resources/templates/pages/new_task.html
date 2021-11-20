@@ -7,7 +7,89 @@
 <body>
 <div class="main-content container-fluid" layout:fragment="content">
     <div class="page-title">
-        <h3>New task</h3>
+        <h3 th:text="${pageTitle}">    </h3>
+    </div>
+
+    <div class="col-md-8">
+        <form method="post" th:object="${task}" th:action="@{/task/confirm-save}" class="form-inline">
+            <input type="hidden" th:field="*{id}" id="id">
+            <div class="card" >
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-md-10 mb-3">
+                            <label for="subject">Subject: </label>
+                            <input id="subject" type="text" th:field="*{subject}" class="form-control" />
+                            <span class="validation-error text-danger"
+                                  th:if="${#fields.hasErrors('subject')}"
+                                  th:errors="*{subject}">
+                            </span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-10 mb-3">
+                                <label for="deadline">Deadline: </label>
+                                <input id="deadline" type="datetime-local" th:field="*{deadline}" class="form-control" />
+                                <span class="validation-error text-danger"
+                                      th:if="${#fields.hasErrors('deadline')}"
+                                      th:errors="*{deadline}">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-10 mb-3">
+                                <label for="priority">Priority: </label>
+                                <select id="priority" th:field="*{priorityId}" class="form-control">
+                                    <option value="" >---Choose a priority---</option>
+                                    <option th:each="taskPriority : ${taskPriorities}"
+                                            th:value="${taskPriority.getValue()}"
+                                            th:text="${taskPriority}">
+                                    </option>
+                                </select>
+                                <span class="validation-error text-danger"
+                                      th:if="${#fields.hasErrors('priorityId')}"
+                                      th:errors="*{priorityId}">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-row ">
+                            <div class="col-md-10 mb-3">
+                                <label for="taskUser">User assigned to: </label>
+                                <select id="taskUser" th:field="*{assignedToUsername}" class="form-control">
+                                    <option value="" >---Choose a user---</option>
+                                    <option th:each="taskUser : ${users}"
+                                            th:value="${taskUser.getUsername()}"
+                                            th:text="${taskUser.getFullName()}">
+                                    </option>
+                                </select>
+                                <span class="validation-error text-danger"
+                                      th:if="${#fields.hasErrors('assignedToUsername')}"
+                                      th:errors="*{assignedToUsername}">
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-10 mb-3">
+                            <label for="description">Description: </label>
+                            <textarea id="description" type="text" th:field="*{description}" class="form-control" rows="4" />
+                            <span class="validation-error text-danger"
+                                  th:if="${#fields.hasErrors('description')}"
+                                  th:errors="*{description}">
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </div>
 
 </div>

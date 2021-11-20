@@ -113,33 +113,40 @@ public class JdbcTaskRepository implements TaskRepository{
         }
     }
 
+
+
     @Override
     public void deleteById(Long id) {
         jdbc.update("DELETE FROM tasks WHERE id = ?", id);
     }
 
+    @Override
+    public void changeStatus(Long id, Long statusId) {
+        jdbc.update("UPDATE tasks SET status_id = ? WHERE id = ?", statusId, id);
+    }
+
     private Task mapRowToTask(ResultSet rs, int rowNum) throws SQLException {
-        return Task.Create(
+        return Task.create(
                 rs.getLong("id"),
                 rs.getString("subject"),
                 rs.getString("description"),
-                User.Create(
+                User.create(
                         rs.getString("assigned_to_username"),
                         rs.getString("assigned_to_first_name"),
                         rs.getString("assigned_to_last_name")
                 ),
-                User.Create(
+                User.create(
                         rs.getString("assigned_by_username"),
                         rs.getString("assigned_by_first_name"),
                         rs.getString("assigned_by_last_name")
                 ),
-                Status.Create(
+                Status.create(
                         rs.getLong("status_id"),
                         rs.getString("status_code"),
                         rs.getString("status_name"),
                         rs.getString("status_css_class")
                 ),
-                Priority.Create(
+                Priority.create(
                         rs.getLong("priority_id"),
                         rs.getString("priority_code"),
                         rs.getString("priority_name"),
@@ -153,13 +160,16 @@ public class JdbcTaskRepository implements TaskRepository{
     private Task saveTaskDetails(Task task){
 
         Map<String, Object> values = new HashMap<>();
-        if (task.getId() == 0 || task.getId() == null){
+        if (task.getId() == null){
+
+            String assignedBy = task.getAssignedBy().getUsername();
+
             values.put("subject", task.getSubject());
             values.put("description", task.getDescription());
-            values.put("user_assigned_to", task.getAssignedTo().getUsername());
+            values.put("user_assigned_to", task.getAssignedToUsername().isEmpty() ? null : task.getAssignedToUsername());
             values.put("user_assigned_by", task.getAssignedBy().getUsername());
             values.put("status_id", task.getStatus().getId());
-            values.put("priority_id", task.getPriority().getId());
+            values.put("priority_id", task.getPriorityId());
             values.put("deadline", task.getDeadline());
 
             task.setId(jdbcInsert.executeAndReturnKey(values).longValue());
@@ -172,11 +182,12 @@ public class JdbcTaskRepository implements TaskRepository{
                     UPDATE,
                     task.getSubject(),
                     task.getDescription(),
-                    task.getAssignedTo().getUsername(),
+                    task.getAssignedToUsername(),
                     task.getAssignedBy().getUsername(),
                     task.getStatus().getId(),
-                    task.getPriority().getId(),
-                    task.getDeadline());
+                    task.getPriorityId(),
+                    task.getDeadline(),
+                    task.getId());
 
         }
 

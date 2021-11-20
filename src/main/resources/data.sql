@@ -20,10 +20,10 @@ insert into statuses(id, code, name, css_class) values
 (3,'DONE', 'Done', 'badge bg-success');
 
 insert into tasks(subject, description, user_assigned_to, user_assigned_by, status_id, priority_id, deadline) values
-    ('Subject', 'Description', 'admin', 'admin', 1, 1, '2021-10-10'),
-    ('Subject', 'Description', 'admin', 'admin', 2, 1, '2021-10-10'),
-    ('Subject', 'Description', 'admin', 'admin', 3, 1, '2021-10-10'),
-    ('Subject', 'Description', 'user', 'admin', 1, 1, '2021-10-10'),
-    ('Subject', 'Description', 'user', 'admin', 2, 1, '2021-10-10'),
-    ('Subject', 'Description', 'user', 'admin', 2, 1, '2021-10-10'),
-    ('Subject', 'Description', 'user', 'admin', 2, 1, '2021-10-10');
+    ('TASK-1', 'Learn css', 'admin', 'admin', 1, 1, '2021-12-12'),
+    ('TASK-2', 'Learn C#', 'admin', 'admin', 2, 1, '2021-12-12'),
+    ('TASK-3', 'Learn Java', 'admin', 'admin', 3, 1, '2021-12-12'),
+    ('TASK-4', 'Learn Kotlin', 'user', 'admin', 1, 1, '2021-12-12'),
+    ('TASK-5', 'Learn HTML', 'user', 'admin', 2, 1, '2021-12-12'),
+    ('TASK-6', 'Learn Python', 'user', 'admin', 2, 1, '2021-12-12'),
+    ('TASK-7', 'Learn SQL', 'user', 'admin', 2, 1, '2021-12-12');

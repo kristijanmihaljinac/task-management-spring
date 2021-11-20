@@ -1,6 +1,7 @@
 package com.kristijanmihaljinac.taskmanagementspring.domain;
 
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 @Data
 public class Priority {
@@ -10,14 +11,14 @@ public class Priority {
     private String cssClass;
     private String icon;
 
-    private Priority(){}
+    public Priority(){}
 
-    public static Priority Create(
-            Long id,
-            String code,
-            String name,
-            String cssClass,
-            String icon
+    public static Priority create(
+            @Nullable Long id,
+            @Nullable String code,
+            @Nullable String name,
+            @Nullable String cssClass,
+            @Nullable String icon
     ){
         if(id == null || id == 0)
             return null;
@@ -28,6 +29,18 @@ public class Priority {
         pr.setName(name);
         pr.setCssClass(cssClass);
         pr.setIcon(icon);
+        return pr;
+    }
+
+    public static Priority create(
+            Long id
+    ){
+        if(id == null || id == 0)
+            return null;
+
+        Priority pr = new Priority();
+        pr.setId(id);
+
         return pr;
     }
 }
