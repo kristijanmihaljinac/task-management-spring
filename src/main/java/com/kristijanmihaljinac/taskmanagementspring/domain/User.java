@@ -1,15 +1,26 @@
 package com.kristijanmihaljinac.taskmanagementspring.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 @Data
+@Entity
+@Table(name = "users")
+@JsonSerialize
 public class User {
+
+    @Id
     private String username;
+
     private String firstName;
     private String lastName;
 
-    private User(){}
+    public User(){}
 
 
     public static User create(

@@ -7,6 +7,7 @@ import com.kristijanmihaljinac.taskmanagementspring.domain.enums.PriorityEnum;
 import com.kristijanmihaljinac.taskmanagementspring.domain.enums.StatusEnum;
 import com.kristijanmihaljinac.taskmanagementspring.service.TaskService;
 import com.kristijanmihaljinac.taskmanagementspring.service.UserService;
+import com.kristijanmihaljinac.taskmanagementspring.service.dto.TaskSearchDTO;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+import java.security.PublicKey;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,9 +33,17 @@ public class TaskController {
         this.userService = userService;
     }
 
+    @PostMapping("search")
+    public String dashboardSearchResult(TaskSearchDTO taskSearchDTO, Model model, Authentication authentication){
+        model.addAttribute("taskPriorities", PriorityEnum.values());
+        addTasksToModel(model, authentication, taskSearchDTO);
+        return "pages/task_dashboard";
+    }
+
     @GetMapping("dashboard")
-    public String dashboard(Model model, Authentication authentication){
-        addTasksToModel(model, authentication);
+    public String dashboard(TaskSearchDTO taskSearchDTO, Model model, Authentication authentication){
+        model.addAttribute("taskPriorities", PriorityEnum.values());
+        addTasksToModel(model, authentication, taskSearchDTO);
         return "pages/task_dashboard";
     }
 
@@ -71,7 +81,7 @@ public class TaskController {
 
     @PostMapping("confirm-save")
     @RolesAllowed("ROLE_ADMIN")
-    public String taskSaveConfirm(@Valid Task task, Errors errors, Model model, Authentication authentication) {
+    public String taskSaveConfirm(TaskSearchDTO taskSearchDTO, @Valid Task task, Errors errors, Model model, Authentication authentication) {
 
 
         if(errors.hasErrors()){
@@ -83,62 +93,70 @@ public class TaskController {
         task.setStatus(Status.create(StatusEnum.TODO.getValue()));
         task.setAssignedBy(User.create(authentication.getName()));
         taskService.save(task);
-        addTasksToModel(model, authentication);
+
+        model.addAttribute("taskPriorities", PriorityEnum.values());
+        addTasksToModel(model, authentication, null);
 
         return "pages/task_dashboard";
     }
 
 
     @RequestMapping("change-status-todo/{id}")
-    public String changeStatusTodo(@PathVariable Long id, Model model, Authentication authentication){
+    public String changeStatusTodo(TaskSearchDTO taskSearchDTO, @PathVariable Long id, Model model, Authentication authentication){
         taskService.changeStatus(id, StatusEnum.TODO.getValue());
-        addTasksToModel(model, authentication);
+        addTasksToModel(model, authentication, null);
+        model.addAttribute("taskPriorities", PriorityEnum.values());
         return "pages/task_dashboard";
     }
 
     @RequestMapping("change-status-inprogress/{id}")
-    public String changeStatusInProgress(@PathVariable Long id, Model model, Authentication authentication){
+    public String changeStatusInProgress(TaskSearchDTO taskSearchDTO, @PathVariable Long id, Model model, Authentication authentication){
         taskService.changeStatus(id, StatusEnum.IN_PROGRESS.getValue());
-        addTasksToModel(model, authentication);
+        addTasksToModel(model, authentication, null);
+        model.addAttribute("taskPriorities", PriorityEnum.values());
         return "pages/task_dashboard";
     }
 
     @RequestMapping("change-status-done/{id}")
-    public String changeStatusDone(@PathVariable Long id, Model model, Authentication authentication){
+    public String changeStatusDone(TaskSearchDTO taskSearchDTO, @PathVariable Long id, Model model, Authentication authentication){
 
         taskService.changeStatus(id, StatusEnum.DONE.getValue());
-        addTasksToModel(model, authentication);
+        addTasksToModel(model, authentication, null);
+        model.addAttribute("taskPriorities", PriorityEnum.values());
         return "pages/task_dashboard";
     }
 
     @RequestMapping("delete/{id}")
-    public String deleteTask(@PathVariable Long id, Model model, Authentication authentication){
+    public String deleteTask(TaskSearchDTO taskSearchDTO, @PathVariable Long id, Model model, Authentication authentication){
 
         taskService.deleteById(id);
-        addTasksToModel(model, authentication);
+        addTasksToModel(model, authentication, null);
+        model.addAttribute("taskPriorities", PriorityEnum.values());
         return "pages/task_dashboard";
 
     }
 
 
 
-    private void addTasksToModel(Model model, Authentication authentication){
+
+
+    private void addTasksToModel(Model model, Authentication authentication, TaskSearchDTO taskSearchDTO){
 
         Set<String> roles = authentication.getAuthorities().stream()
                 .map(r -> r.getAuthority()).collect(Collectors.toSet());
 
-        if(roles.contains("ROLE_ADMIN")){
-            model.addAttribute("todoTasks", taskService.findByStatusId(StatusEnum.TODO.getValue()));
-            model.addAttribute("inProgressTasks", taskService.findByStatusId(StatusEnum.IN_PROGRESS.getValue()));
-            model.addAttribute("doneTasks", taskService.findByStatusId(StatusEnum.DONE.getValue()));
-        }
-        else
-        {
-            model.addAttribute("todoTasks", taskService.findByUserAssignedToAndStatusId(authentication.getName(),StatusEnum.TODO.getValue()));
-            model.addAttribute("inProgressTasks", taskService.findByUserAssignedToAndStatusId(authentication.getName(),StatusEnum.IN_PROGRESS.getValue()));
-            model.addAttribute("doneTasks", taskService.findByUserAssignedToAndStatusId(authentication.getName(), StatusEnum.DONE.getValue()));
-        }
 
+            if(roles.contains("ROLE_ADMIN")){
+                model.addAttribute("todoTasks", taskService.findByStatusIdAndSearchDto(StatusEnum.TODO.getValue(), taskSearchDTO));
+                model.addAttribute("inProgressTasks", taskService.findByStatusIdAndSearchDto(StatusEnum.IN_PROGRESS.getValue(), taskSearchDTO));
+                model.addAttribute("doneTasks", taskService.findByStatusIdAndSearchDto(StatusEnum.DONE.getValue(), taskSearchDTO));
+            }
+            else
+            {
+                model.addAttribute("todoTasks", taskService.findByUserAssignedToAndStatusIdAndSearchDto(authentication.getName(),StatusEnum.TODO.getValue(), taskSearchDTO));
+                model.addAttribute("inProgressTasks", taskService.findByUserAssignedToAndStatusIdAndSearchDto(authentication.getName(),StatusEnum.IN_PROGRESS.getValue(), taskSearchDTO));
+                model.addAttribute("doneTasks", taskService.findByUserAssignedToAndStatusIdAndSearchDto(authentication.getName(), StatusEnum.DONE.getValue(), taskSearchDTO));
+            }
 
     }
 

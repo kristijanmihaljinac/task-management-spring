@@ -10,6 +10,36 @@
         <h3>Dashboard</h3>
         <p class="text-subtitle text-muted">Tasks dashboard</p>
     </div>
+
+    <section>
+        <div class="card" >
+            <div class="card-body">
+                <form class="form-inline" method="post" th:object="${taskSearchDTO}" th:action="@{/task/search}">
+                    <div class="row">
+                        <div class="col">
+                            <label class="font-bold" for="subject">Subject: </label>
+                            <input id="subject" type="text" th:field="*{taskSubject}" class="form-control" />
+                        </div>
+                        <div class="col">
+                            <label for="priority">Priority: </label>
+                            <select id="priority" th:field="*{priorityId}" class="form-control">
+                                <option value="" >---Choose a priority---</option>
+                                <option th:each="taskPriority : ${taskPriorities}"
+                                        th:value="${taskPriority.getValue()}"
+                                        th:text="${taskPriority}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <button style="margin-top: 22px" type="submit" class="btn btn-primary mb-2">Search</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
+
     <section class="section">
         <div class="row mb-4">
             <div class="col-md-4">

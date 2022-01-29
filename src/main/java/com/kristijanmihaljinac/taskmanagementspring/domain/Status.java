@@ -1,15 +1,24 @@
 package com.kristijanmihaljinac.taskmanagementspring.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
+import javax.persistence.*;
+
 @Data
+@Entity
+@Table(name = "statuses")
+@JsonSerialize
 public class Status {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
     private String name;
     private String cssClass;
 
-    private Status(){};
+    public Status(){};
 
     public static Status create(
             Long id,

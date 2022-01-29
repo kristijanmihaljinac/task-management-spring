@@ -1,15 +1,25 @@
 package com.kristijanmihaljinac.taskmanagementspring.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "tasks")
+@JsonSerialize
 public class Task {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "The subject has not been entered!")
@@ -21,17 +31,28 @@ public class Task {
     @Size(min = 10, max = 100, message = "The description should be between 10 and 20 characters long!")
     private String description;
 
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+    @JoinColumn(name = "user_assigned_by", nullable = false, referencedColumnName = "username")
     private User assignedBy;
 
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+    @JoinColumn(name = "user_assigned_to", nullable = true, referencedColumnName = "username")
     private User assignedTo;
 
     @NotEmpty(message = "Task must be assigned to user")
     @NotNull(message = "Task must be assigned to user")
+    @Column(name = "user_assigned_to", insertable = false, updatable = false)
     private String assignedToUsername;
 
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Status.class)
+    @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
     private Status status;
 
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Priority.class)
+    @JoinColumn(name = "priority_id", nullable = false, referencedColumnName = "id")
     private Priority priority;
+
+    @Column(name = "priority_id", insertable = false, updatable = false)
     private Long priorityId;
 
 
@@ -41,7 +62,7 @@ public class Task {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime deadline;
 
-    private Task() {}
+    public Task() {}
 
 
 

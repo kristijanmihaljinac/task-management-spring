@@ -52,7 +52,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/403")
                 // the methods called below are here exclusively to allow access to the H2 console which has no CSRF protection and uses iframes
                 .and()
-                .csrf().ignoringRequestMatchers(PathRequest.toH2Console())
+                .csrf()
+                    .ignoringRequestMatchers(PathRequest.toH2Console())
+                 // disabling CSRF only to allow REST access
+                    .ignoringAntMatchers("/api/**", "/login")
                 .and()
                 .headers().frameOptions().sameOrigin();
 

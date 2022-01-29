@@ -6,6 +6,15 @@
 <body>
 <nav class="navbar navbar-header navbar-expand navbar-light" th:fragment="header">
     <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+
+    <div>
+        <span th:text="#{msg.lang.current}"></span>:
+        <select id="locales">
+            <option value="hr" th:selected="${#locale.language == 'hr'}" th:text="#{msg.lang.hr}"></option>
+            <option value="en" th:selected="${#locale.language == 'en'}" th:text="#{msg.lang.en}"></option>
+        </select>
+    </div>
+
     <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
