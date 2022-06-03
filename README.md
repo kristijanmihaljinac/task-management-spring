@@ -6,4 +6,5 @@ Used technologies:
  - Spring Boot - Java
  - Thymeleaf
  - Bootstrap 4
+ - H2 database
 
